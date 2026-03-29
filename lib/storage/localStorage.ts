@@ -18,16 +18,7 @@ const localstorage = {
 
   // 设置（仅当不存在时）
   set: (key: string, value: any) => {
-    if (!isBrowser) return
-    // 原生返回 null 代表不存在
-    if (window.localStorage.getItem(key) !== null) return
-    window.localStorage.setItem(key, JSON.stringify(value))
-  },
-
-  // 修改（仅当存在时）
-  update: (key: string, value: any) => {
-    if (!isBrowser) return
-    if (window.localStorage.getItem(key) === null) return
+    if (!isBrowser) return null
     window.localStorage.setItem(key, JSON.stringify(value))
   },
 

@@ -1,6 +1,5 @@
-import { HomePage } from "@/components/settings/home"
+import { BasePage } from "@/components/settings/server"
 import { AdvancedPage } from "@/components/settings/advanced"
-import { NotificationsPage } from "@/components/settings/notifications"
 import {InfoPage} from "@/components/settings/info"
 
-export { HomePage, AdvancedPage, NotificationsPage ,InfoPage}
+export { BasePage, AdvancedPage, InfoPage }

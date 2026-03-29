@@ -65,10 +65,6 @@ export function AppSidebar({ sidebarData, onOpenSettings,...props }: AppSidebarP
         <NavSecondary items={sidebarData.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton>
-          <Mail />
-          <span>通知</span>
-        </SidebarMenuButton>
         <SidebarMenuButton asChild>
           <button onClick={() => onOpenSettings?.(true)}>
             <Settings2Icon />

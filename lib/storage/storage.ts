@@ -7,10 +7,13 @@ import sessionstorage from "./sessionStorage"
 const isBrowser = typeof window !== "undefined"
 
 const Storages = {
-  get:(key:string)=>{
+  get:(key:string,default_value?:string)=>{
     if(!isBrowser) return null;
-    if (sessionstorage.get(key) != null) return sessionstorage.get(key)
-    return localstorage.get(key)
+    const localValue = localStorage.getItem(key)
+    const sessionValue = sessionStorage.getItem(key)
+    if (sessionValue != null) return sessionValue
+    if (localValue != null) return localValue
+    return default_value
   },
   set:(key:string,value:any,useSessionStorage:boolean=false)=>{
     if (!isBrowser) return null

@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation"
 import {
   Dialog,
   DialogHeader,
-  DialogDescription,
   DialogTitle,
   DialogContent,
 } from "@/components/ui/dialog"
@@ -19,28 +18,21 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { BellIcon, HomeIcon, SettingsIcon, Info, X } from "lucide-react"
+import {  SettingsIcon, Info, Server } from "lucide-react"
 
 import {
-  HomePage,
+  BasePage,
   AdvancedPage,
-  NotificationsPage,
   InfoPage
 } from "@/components/settings/index"
 
 const data = {
   nav: [
     {
-      name: "主页",
-      icon: <HomeIcon />,
-      slug: "home",
-      page: <HomePage />,
-    },
-    {
-      name: "通知",
-      icon: <BellIcon />,
-      slug: "notifications",
-      page: <NotificationsPage />,
+      name: "基础",
+      icon: <Server />,
+      slug: "base",
+      page: <BasePage />,
     },
     {
       name: "高级",
@@ -66,17 +58,17 @@ export function SettingsDialog({ isOpen, setOpen }: SettingsDialogProps) {
   const pathname = usePathname()
   const router = useRouter()
 
-  const [nowRoute, setNowRoute] = React.useState("home")
-  const [nowPage, setNowPage] = React.useState<React.ReactNode>(<HomePage />)
+  const [nowRoute, setNowRoute] = React.useState("base")
+  const [nowPage, setNowPage] = React.useState<React.ReactNode>(<BasePage />)
 
   // ==================== 关键新增：支持外部 URL 直接进入 ====================
   // 1. 组件挂载或 isOpen 变为 true 时，读取当前 hash 并切换到对应页面
   React.useEffect(() => {
     if (!isOpen) return
 
-    const hash = window.location.hash || "#settings/home"
+    const hash = window.location.hash || "#settings/base"
     const match = hash.match(/^#settings\/(.+)$/)
-    const slug = match ? match[1] : "home"
+    const slug = match ? match[1] : "base"
 
     const targetItem = data.nav.find((item) => item.slug === slug)
     if (targetItem) {
@@ -84,8 +76,8 @@ export function SettingsDialog({ isOpen, setOpen }: SettingsDialogProps) {
       setNowPage(targetItem.page)
     } else {
       // 默认 fallback 到 Home
-      setNowRoute("home")
-      setNowPage(<HomePage />)
+      setNowRoute("base")
+      setNowPage(<BasePage />)
     }
   }, [isOpen]) // 只在 Dialog 打开时执行一次
 

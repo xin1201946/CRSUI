@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge"
 import Storages from "@/lib/storage/storage"
 import Toast from "@/lib/toast"
 import InitServices from "@/lib/start-up/init"
+import Server from "@/lib/server/utils/utils"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -11,6 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 const Utils = {
   Storage:Storages,
   Toast:Toast,
+  Server:Server,
   InitServices:InitServices
 }
 
