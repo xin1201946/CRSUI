@@ -89,10 +89,28 @@ export function InfoPage() {
     },
   ]
   return (
-    <div className="flex flex-col items-center justify-center text-center">
+    <div
+      className="flex flex-col items-center justify-center text-center"
+      style={{ marginTop: "20px" }}
+    >
       {/* Logo / Title */}
-      <div className="mx-auto flex min-h-screen max-w-lg flex-col px-4 py-8">
-        <div className="relative mb-8 overflow-hidden rounded-3xl">
+      <div className="mx-auto flex max-w-lg flex-col" style={{ width: "100%" }}>
+        <div
+          className="relative mb-8 overflow-hidden"
+          style={{ borderRadius: "20px" }}
+        >
+          {/* Text overlay positioned at the top of the gradient */}
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4">
+            <h2
+              className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight drop-shadow-lg"
+              style={{
+                fontSize: "50px",
+                color: "var(--blurforegroundWithPic)",
+              }}
+            >
+              CCRS UI
+            </h2>
+          </div>
           <Grainient
             color1="#00f900"
             color2="#00a3d7"
@@ -117,21 +135,6 @@ export function InfoPage() {
             centerY={0}
             zoom={0.9}
           />
-        </div>
-        <div
-          className="flexflex-col relative z-10 items-center justify-center p-20"
-          style={{ minHeight: "450px" }}
-        >
-          <h2
-            className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-white drop-shadow-md"
-            style={{ fontSize: "40px" }}
-          >
-            CCRS UI
-          </h2>
-
-          <p className="mt-2 font-mono text-sm text-blue-100/70">
-            Casting Character Recognition System
-          </p>
         </div>
       </div>
 
@@ -211,7 +214,7 @@ export function InfoPage() {
       {/* Footer */}
       <div
         className="mt-10 text-xs text-muted-foreground"
-        style={{ marginTop: "20px" }}
+        style={{ margin: "20px" }}
       >
         <p>© 2026 CCRS UI. All rights reserved.</p>
       </div>

@@ -1,15 +1,22 @@
+"use client"
 import styles from "./reg.module.css"
-import {Button} from "@/components/ui/button.tsx"
+import { UploadBox } from "@/components/upload-box"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
 export default function Page(){
+  const [uploadState, setUploadState] = useState(false)
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>RAG 检索增强生成</h2>
-      <p>This is Rag page (CCRS Recognition System)</p>
-
-      {/* 你甚至可以在这里继续组合 Tailwind，两者不冲突 */}
-      <Button >
-        开始识别s
-      </Button>
+      <UploadBox
+        data={{
+          uploadUrl: "http://192.168.1.90:5000/predict",
+          allowFile: [".jpg", ".png"],
+          disableUpload: false,
+          prompt: "点击上传图片",
+          ifSuccess: () => setUploadState(true),
+        }}
+      />
+      <Button disabled={!uploadState}>开始识别</Button>
     </div>
   )
 }

@@ -3,17 +3,15 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import utils from "@/lib/utils"
 import * as React from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
 import { SettingsDialog } from "@/components/settings-dialog"
 import { Toaster } from "@/components/ui/sonner"
-import { SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar"
+import {  SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import route from "./route/route.js"
-import { Mail, ScanQrCode } from "lucide-react"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
@@ -55,7 +53,6 @@ export default function RootLayout({
     return () => window.removeEventListener("hashchange", handleHashChange)
   }, [handleHashChange])
 
-  // ✅ 关键修复：同步设置 state + 更新 hash
   const handleOpenChange = (open: boolean) => {
     setOpenSettingsDialog(open) // ← 必须加上这一行！
 
@@ -64,6 +61,15 @@ export default function RootLayout({
 
     router.replace(newUrl, { scroll: false })
   }
+
+  try{
+    utils.InitServices.FullServices()
+  }catch(e){
+    console.error(e)
+    console.log("try load Core Services...")
+    utils.InitServices.CoreOnly()
+  }
+
   return (
     <html
       lang="en"
@@ -77,7 +83,7 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <Toaster/>
+          <Toaster />
           <SidebarProvider
             style={
               {
@@ -93,9 +99,9 @@ export default function RootLayout({
             />
             <SidebarInset>
               <SiteHeader data={route} />
-              <div className="flex flex-1 flex-col">
-                <div className="@container/main flex flex-1 flex-col gap-2">
-                  <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <div className="flex h-full flex-1 flex-col">
+                <div className="@container/main flex h-full flex-1 flex-col gap-2">
+                  <div className="flex h-full flex-col gap-4 overflow-hidden py-4 md:gap-6 md:py-6">
                     <SettingsDialog
                       isOpen={openSettingsDialog}
                       setOpen={handleOpenChange}

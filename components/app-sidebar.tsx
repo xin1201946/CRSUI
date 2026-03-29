@@ -5,7 +5,6 @@ import { Mail, ScanQrCode, Settings2Icon } from "lucide-react" // 确保导入�
 import { NavMain } from "@/components/nav-main"
 import {ChangeThemeTab} from "@/components/change-theme-tab"
 import { NavSecondary } from "@/components/nav-secondary"
-import {Button} from "@/components/ui/button"
 import Link from "next/link"
 import {
   Sidebar,

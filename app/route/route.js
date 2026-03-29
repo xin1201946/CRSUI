@@ -18,7 +18,7 @@ const route = {
     },
     {
       title: "控制台",
-      url: "/console",
+      url: "/terminal",
       icon: <SquareChevronRight />,
     },
   ],

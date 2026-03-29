@@ -7,6 +7,9 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.idea/
+.vscode/
+*.xml~
 
 # testing
 /coverage
