@@ -2203,7 +2203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-switch@npm:1.2.6":
+"@radix-ui/react-switch@npm:1.2.6, @radix-ui/react-switch@npm:^1.2.6":
   version: 1.2.6
   resolution: "@radix-ui/react-switch@npm:1.2.6"
   dependencies:
@@ -3878,6 +3878,7 @@ __metadata:
     "@dnd-kit/sortable": "npm:^10.0.0"
     "@dnd-kit/utilities": "npm:^3.2.2"
     "@eslint/eslintrc": "npm:^3"
+    "@radix-ui/react-switch": "npm:^1.2.6"
     "@radix-ui/react-visually-hidden": "npm:^1.2.4"
     "@tailwindcss/postcss": "npm:^4.2.2"
     "@tanstack/react-table": "npm:^8.21.3"
