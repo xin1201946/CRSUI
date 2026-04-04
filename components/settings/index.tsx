@@ -1,5 +1,5 @@
 import { BasePage } from "@/components/settings/server"
-import { AdvancedPage } from "@/components/settings/advanced"
+import { LogPage } from "@/components/settings/logs"
 import {InfoPage} from "@/components/settings/info"
 
-export { BasePage, AdvancedPage, InfoPage }
+export { BasePage, LogPage, InfoPage }

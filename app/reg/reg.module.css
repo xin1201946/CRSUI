@@ -1,21 +1,35 @@
 /* reg.module.css */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* 这里的 flex: 1 确保它撑满 SidebarInset 的剩余空间 */
     flex: 1;
     width: 100%;
+    justify-content: center;
+    padding: 20px;
+}
 
-    /* 计算高度：100vh 减去你在 SidebarProvider 里定义的 --header-height
-       如果变量没生效，可以给个默认值 64px (spacing * 16)
-    */
-    min-height: calc(100vh - 120px);
+.contentWrap {
+    width: 100%;
+    max-width: 1120px;
+}
 
-    /* 让文字看起来更舒服一点 */
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-sans);
+.section {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.uploadArea {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 640px;
+}
+
+.actionsCenter {
+    display: flex;
+    justify-content: center;
 }
 
 .title {

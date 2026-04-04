@@ -247,35 +247,29 @@ export const CCRSTerminal = React.forwardRef<TerminalRef, CCRSTerminalProps>(
         {
           name: "help",
           description: "显示帮助信息",
-          execute: (ctx) => {
-            const allCommands = Array.from(commands.values())
+          execute: (_ctx: CommandContext) => {
+            const allCommands = Array.from(commandsRef.current.values())
             return [
-              {
-                type: "table" as const,
-                content: {
-                  headers: ["命令", "说明"],
-                  rows: allCommands.map((cmd) => [cmd.name, cmd.description || "-"]),
-                },
-              },
+              createTableOutput(
+                ["命令", "说明"],
+                allCommands.map((cmd) => [cmd.name, cmd.description || "-"])
+              ),
             ]
           },
         },
         {
           name: "echo",
           description: "输出文本",
-          execute: (ctx) => [{ type: "text" as const, content: ctx.args.join(" ") }],
+          execute: (ctx: CommandContext) => [{ type: "text" as const, content: ctx.args.join(" ") }],
         },
         {
           name: "history",
           description: "显示命令历史",
-          execute: () => [
-            {
-              type: "list" as const,
-              content: {
-                items: history.map((h, i) => `${i + 1}. ${h.command}`),
-                ordered: true,
-              },
-            },
+          execute: (_ctx: CommandContext) => [
+            createListOutput(
+              historyRef.current.map((h, i) => `${i + 1}. ${h.command}`),
+              true
+            ),
           ],
         },
       ],

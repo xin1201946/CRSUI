@@ -2,11 +2,14 @@
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-import utils from "@/lib/utils"
+import utils, { cn } from "@/lib/utils";
 import * as React from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { AppSidebar } from "@/components/app-sidebar"
+import {
+  SiteHeaderProvider,
+  SiteHeaderRouteReset,
+} from "@/components/site-header-context"
 import { SiteHeader } from "@/components/site-header"
 import { SettingsDialog } from "@/components/settings-dialog"
 import { Toaster } from "@/components/ui/sonner"
@@ -22,6 +25,13 @@ const fontMono = Geist_Mono({
 })
 
 
+try {
+  utils.InitServices.FullServices()
+} catch (e) {
+  console.error(e)
+  console.log("try load Core Services...")
+  utils.InitServices.CoreOnly()
+}
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,6 +39,8 @@ export default function RootLayout({
 }>) {
   const [openSettingsDialog, setOpenSettingsDialog] =
     React.useState<boolean>(false)
+  const [headerComponent, setHeaderComponent] =
+    React.useState<React.ReactNode>(null)
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -62,13 +74,7 @@ export default function RootLayout({
     router.replace(newUrl, { scroll: false })
   }
 
-  try{
-    utils.InitServices.FullServices()
-  }catch(e){
-    console.error(e)
-    console.log("try load Core Services...")
-    utils.InitServices.CoreOnly()
-  }
+
 
   return (
     <html
@@ -84,34 +90,37 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Toaster />
-          <SidebarProvider
-            style={
-              {
-                "--sidebar-width": "calc(var(--spacing) * 72)",
-                "--header-height": "calc(var(--spacing) * 12)",
-              } as React.CSSProperties
-            }
-          >
-            <AppSidebar
-              variant="inset"
-              sidebarData={route}
-              onOpenSettings={handleOpenChange} // ← 新增 prop 传下去
-            />
-            <SidebarInset>
-              <SiteHeader data={route} />
-              <div className="flex h-full flex-1 flex-col">
-                <div className="@container/main flex h-full flex-1 flex-col gap-2">
-                  <div className="flex h-full flex-col gap-4 overflow-hidden py-4 md:gap-6 md:py-6">
-                    <SettingsDialog
-                      isOpen={openSettingsDialog}
-                      setOpen={handleOpenChange}
-                    />
-                    {children}
+          <SiteHeaderProvider setTitleAfter={setHeaderComponent}>
+            <SiteHeaderRouteReset pathname={pathname} />
+            <SidebarProvider
+              style={
+                {
+                  "--sidebar-width": "calc(var(--spacing) * 72)",
+                  "--header-height": "calc(var(--spacing) * 12)",
+                } as React.CSSProperties
+              }
+            >
+              <AppSidebar
+                variant="inset"
+                sidebarData={route}
+                onOpenSettings={handleOpenChange} // ← 新增 prop 传下去
+              />
+              <SidebarInset>
+                <SiteHeader data={route} titleAfter={headerComponent} />
+                <div className="flex h-full flex-1 flex-col">
+                  <div className="@container/main flex h-full flex-1 flex-col gap-2">
+                    <div className="flex h-full flex-col gap-4 overflow-hidden py-4 md:gap-6 md:py-6">
+                      <SettingsDialog
+                        isOpen={openSettingsDialog}
+                        setOpen={handleOpenChange}
+                      />
+                      {children}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SidebarInset>
-          </SidebarProvider>
+              </SidebarInset>
+            </SidebarProvider>
+          </SiteHeaderProvider>
         </ThemeProvider>
       </body>
     </html>

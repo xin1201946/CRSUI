@@ -1,7 +1,5 @@
 "use client"
-
-import { toast, ExternalToast } from "sonner"
-import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 import storage from "./storage/storage"
 
 // 定义通知对象的类型
@@ -24,6 +22,16 @@ const listeners = new Set<(list: NotificationItem[]) => void>()
 const notify = () => {
   const sorted = [...toastHistory].sort((a, b) => b.timestamp - a.timestamp)
   listeners.forEach((cb) => cb(sorted))
+}
+
+const TOAST_DUPLICATE_WINDOW_MS = 5000
+
+const buildToastFingerprint = (
+  title: string,
+  message: string | null,
+  type: string
+) => {
+  return `${title.trim()}::${(message ?? "").trim()}::${type.trim()}`
 }
 
 const Toast = {
@@ -54,6 +62,18 @@ const Toast = {
         : "top-right"
 
     const timestamp = Date.now()
+
+    const fingerprint = buildToastFingerprint(title, message, type)
+
+    const duplicated = toastHistory.find(
+      (item) =>
+        buildToastFingerprint(item.title, item.message, item.type) === fingerprint &&
+        timestamp - item.timestamp < TOAST_DUPLICATE_WINDOW_MS
+    )
+
+    if (duplicated) {
+      return duplicated.id
+    }
 
     const data = {
       description: message,

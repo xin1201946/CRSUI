@@ -19,7 +19,7 @@ const localstorage = {
   // 设置（仅当不存在时）
   set: (key: string, value: any) => {
     if (!isBrowser) return null
-    window.localStorage.setItem(key, JSON.stringify(value))
+    window.localStorage.setItem(key,value)
   },
 
   // 移除

@@ -24,9 +24,12 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { ExternalLinkIcon } from "lucide-react"
+import { ArrowUpRightIcon, ChevronRight } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import Grainient from"@/components/Grainient"
+import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
+import { Badge } from "@/components/ui/badge"
+import Dither from "@/components/Dither"
 
 function UserCard(){
   return (
@@ -53,7 +56,8 @@ function UserCard(){
 }
 
 export function InfoPage() {
-
+  const [isDarkMode,setDarkMode] = useState(false)
+  const { resolvedTheme } = useTheme()
   const infoData = [
     { name: "版本", value: "1.0" },
     { name: "作者", value: <UserCard/> },
@@ -88,6 +92,10 @@ export function InfoPage() {
       introduction: "开源的轮毂铸造字符识别系统前端交互界面",
     },
   ]
+  useEffect(() => {
+    setDarkMode(resolvedTheme === "dark")
+    console.log(resolvedTheme)
+  }, [resolvedTheme])
   return (
     <div
       className="flex flex-col items-center justify-center text-center"
@@ -96,7 +104,7 @@ export function InfoPage() {
       {/* Logo / Title */}
       <div className="mx-auto flex max-w-lg flex-col" style={{ width: "100%" }}>
         <div
-          className="relative mb-8 overflow-hidden"
+          className="relative mb-8 min-h-[220px] overflow-hidden"
           style={{ borderRadius: "20px" }}
         >
           {/* Text overlay positioned at the top of the gradient */}
@@ -105,36 +113,40 @@ export function InfoPage() {
               className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight drop-shadow-lg"
               style={{
                 fontSize: "50px",
-                color: "var(--blurforegroundWithPic)",
               }}
             >
               CCRS UI
             </h2>
+            <p className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              <span>
+                <Badge asChild>
+                  <a
+                    href="https://github.com/xin1201946/CRSUI"
+                    target={"_blank"}
+                  >
+                    Github <ArrowUpRightIcon data-icon="inline-end" />
+                  </a>
+                </Badge>
+              </span>
+            </p>
           </div>
-          <Grainient
-            color1="#00f900"
-            color2="#00a3d7"
-            color3="#b1dd8c"
-            timeSpeed={0.6}
-            colorBalance={0}
-            warpStrength={1}
-            warpFrequency={5}
-            warpSpeed={2}
-            warpAmplitude={50}
-            blendAngle={7}
-            blendSoftness={0.1}
-            rotationAmount={500}
-            noiseScale={2.95}
-            grainAmount={0.11}
-            grainScale={0.2}
-            grainAnimated
-            contrast={1.3}
-            gamma={1.7}
-            saturation={1.35}
-            centerX={0}
-            centerY={0}
-            zoom={0.9}
-          />
+          {isDarkMode ? (
+            <Dither
+              waveColor={[
+                0.08235294117647059, 0.11372549019607843, 0.3568627450980392,
+              ]}
+              disableAnimation={false}
+              enableMouseInteraction={false}
+              mouseRadius={1}
+              colorNum={7}
+              pixelSize={4}
+              waveAmplitude={0.35}
+              waveFrequency={3.5}
+              waveSpeed={0.05}
+            />
+          ) : (
+            <div className="absolute inset-0 z-0 rounded-lg bg-linear-to-br from-blue-100 via-green-100 to-cyan-100 opacity-50" />
+          )}
         </div>
       </div>
 
@@ -164,51 +176,48 @@ export function InfoPage() {
               <ItemTitle>第三方开源致谢</ItemTitle>
             </ItemContent>
             <ItemActions>
-              <ExternalLinkIcon className="size-4" />
+              <ChevronRight className="size-4" />
             </ItemActions>
           </Item>
         </DialogTrigger>
         <DialogContent
-          className="w-100 overflow-hidden"
+          className="overflow-hidden"
           style={{
             backgroundColor: "var(--blurbackground)",
             backdropFilter: "blur(20px)",
           }}
         >
-          <DialogHeader>
-            <DialogTitle>本项目引用以下开源项目</DialogTitle>
-            <DialogDescription>
-              <ScrollArea className="h-72 rounded-md">
-                {openSource.map((item) => (
-                  <Item
-                    variant="outline"
-                    key={item.name}
-                    asChild
-                    style={{ marginTop: "10px" }}
-                  >
-                    <a href={item.url} target={"_blank"}>
-                      <ItemMedia>
-                        <Avatar size="sm">
-                          <AvatarImage
-                            src={item.image}
-                            alt={item.name}
-                            className="grayscale"
-                          />
-                          <AvatarFallback>
-                            {item.name[0].toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                      </ItemMedia>
-                      <ItemContent>
-                        <ItemTitle>{item.name}</ItemTitle>
-                      </ItemContent>
-                      <ItemDescription>{item.introduction}</ItemDescription>
-                    </a>
-                  </Item>
-                ))}
-              </ScrollArea>
-            </DialogDescription>
-          </DialogHeader>
+          <DialogHeader>引用的开源项目</DialogHeader>
+          <DialogDescription></DialogDescription>
+          <ScrollArea className="h-72 rounded-md">
+            {openSource.map((item) => (
+              <Item
+                variant="outline"
+                key={item.name}
+                asChild
+                style={{ marginTop: "10px" }}
+              >
+                <a href={item.url} target={"_blank"}>
+                  <ItemMedia>
+                    <Avatar size="sm">
+                      <AvatarImage
+                        src={item.image}
+                        alt={item.name}
+                        className="grayscale"
+                      />
+                      <AvatarFallback>
+                        {item.name[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>{item.name}</ItemTitle>
+                  </ItemContent>
+                  <ItemDescription>{item.introduction}</ItemDescription>
+                </a>
+              </Item>
+            ))}
+          </ScrollArea>
         </DialogContent>
       </Dialog>
       {/* Footer */}

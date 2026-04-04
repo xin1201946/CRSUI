@@ -17,6 +17,7 @@ const apis = {
   ocr: {
     start: "/start",
     status: "/status",
+    history: "/getdatabase",
   },
 }
 

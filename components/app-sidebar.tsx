@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Mail, ScanQrCode, Settings2Icon } from "lucide-react" // 确保导入了图标
+import {  ScanQrCode, Settings2Icon } from "lucide-react" // 确保导入了图标
 import { NavMain } from "@/components/nav-main"
 import {ChangeThemeTab} from "@/components/change-theme-tab"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -42,6 +42,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ sidebarData, onOpenSettings,...props }: AppSidebarProps) {
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -59,7 +60,7 @@ export function AppSidebar({ sidebarData, onOpenSettings,...props }: AppSidebarP
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className={"gap-2"}>
         {/* 3. 使用传入的 sidebarData */}
         <NavMain items={sidebarData.navMain} />
         <NavSecondary items={sidebarData.navSecondary} className="mt-auto" />

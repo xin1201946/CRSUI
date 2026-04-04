@@ -22,9 +22,9 @@ import {  SettingsIcon, Info, Server } from "lucide-react"
 
 import {
   BasePage,
-  AdvancedPage,
-  InfoPage
-} from "@/components/settings/index"
+  InfoPage,
+  LogPage,
+} from "@/components/settings"
 
 const data = {
   nav: [
@@ -35,10 +35,10 @@ const data = {
       page: <BasePage />,
     },
     {
-      name: "高级",
+      name: "日志",
       icon: <SettingsIcon />,
-      slug: "advanced",
-      page: <AdvancedPage />,
+      slug: "logs",
+      page: <LogPage />,
     },
     {
       name: "关于",
@@ -146,7 +146,7 @@ export function SettingsDialog({ isOpen, setOpen }: SettingsDialogProps) {
             className="flex h-[480px] flex-1 flex-col overflow-hidden"
             style={{
               borderRadius: "10px",
-              backgroundColor: "var(--background)",
+              // backgroundColor: "var(--background)",
               marginRight:"10px"
             }}
           >

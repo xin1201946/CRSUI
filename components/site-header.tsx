@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import type { ReactNode } from "react"
 
 // 复用你定义的数据结构
 export interface SiteHeaderData {
@@ -22,9 +23,10 @@ export interface SiteHeaderData {
 
 interface SiteHeaderProps {
   data: SiteHeaderData // 建议直接传整个数据对象
+  titleAfter?: ReactNode
 }
 
-export function SiteHeader({ data }: SiteHeaderProps) {
+export function SiteHeader({ data, titleAfter }: SiteHeaderProps) {
   const pathname = usePathname()
 
   // 1. 自动查找当前标题的逻辑
@@ -61,7 +63,12 @@ export function SiteHeader({ data }: SiteHeaderProps) {
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         {/* 2. 动态渲染找到的标题 */}
-        <h1 className="text-base font-medium">{currentTitle}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-base font-medium">{currentTitle}</h1>
+          {titleAfter != null ? (
+            <div className="flex items-center">{titleAfter}</div>
+          ) : null}
+        </div>
       </div>
     </header>
   )

@@ -3,6 +3,7 @@
 import { useState, useId, useMemo, ChangeEvent, useEffect } from "react";
 import { Plus, Loader2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import utils from "@/lib/server/utils/utils"
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -55,26 +56,25 @@ export function UploadBox({ data }: UploadBoxProps) {
 
     const localPreview = URL.createObjectURL(file);
 
-    // 3. 构建 FormData
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
       // 4. 发送 POST 请求到特定的远程 URL
-      const response = await fetch(data.uploadUrl, {
-        method: "POST",
-        body: formData,
-      });
+      const result = await utils.apis.picture.upload(
+        utils.uuid.init().toString(),
+        file
+      )
 
-      if (response.ok) {
+      if (!result.isError) {
         // 5. 上传成功：展示预览图，应用绿色厚边框
-        setPreviewUrl(localPreview);
-        setStatus("success");
-        console.log("文件上传成功");
+        setPreviewUrl(localPreview)
+        setStatus("success")
+        console.log("文件上传成功")
+        data.ifSuccess?.()
       } else {
-        setStatus("error");
-        setPreviewUrl(localPreview);
-        setErrorMessage(`服务器拒绝: ${response.status}`);
+        setStatus("error")
+        setPreviewUrl(localPreview)
+        setErrorMessage(`服务器拒绝: ${result.errors}`)
+        data.ifFail?.()
       }
     } catch (error) {
       console.error("上传网络异常:", error);
